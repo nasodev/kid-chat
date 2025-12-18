@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <title>Kid Chat</title>
+</head>
+
+<body>
+    <div class="card" id="auth">
+        <h1>Kid Chat 로그인</h1>
+
+        <div class="quick-btns">
+            <button id="btn-nayoon" class="btn btn-primary">나윤</button>
+            <button id="btn-soyoon" class="btn btn-primary">소윤</button>
+        </div>
+
+        <hr class="separator" />
+
+        <input id="user-name" type="text" placeholder="이름" class="input" />
+        <input id="user-password" type="password" placeholder="비밀번호" class="input" />
+        <button id="btn-login" class="btn btn-primary">로그인</button>
+        <button id="btn-signup" class="btn btn-secondary">계정 만들기</button>
+
+        <small id="auth-status"></small>
+    </div>
+
+    <div class="card" id="chat" hidden>
+        <div class="chat-header">
+            <h1>Kid Chat</h1>
+            <div class="header-btns">
+                <button id="btn-settings" class="btn btn-secondary logout-btn">⚙️</button>
+                <button id="btn-logout" class="btn btn-secondary logout-btn">나가기</button>
+            </div>
+        </div>
+        <small id="user-info"></small>
+
+        <div id="messages"></div>
+
+        <div class="input-row">
+            <input id="message-input" placeholder="메시지를 입력하세요" class="input" />
+            <button id="btn-send" class="btn btn-primary">보내기</button>
+        </div>
+    </div>
+
+    <!-- 비밀번호 변경 모달 -->
+    <div class="modal" id="modal-password" hidden>
+        <div class="modal-content card">
+            <h2>비밀번호 변경</h2>
+            <input id="current-password" type="password" placeholder="현재 비밀번호" class="input" />
+            <input id="new-password" type="password" placeholder="새 비밀번호 (6자 이상)" class="input" />
+            <input id="confirm-password" type="password" placeholder="새 비밀번호 확인" class="input" />
+            <small id="password-status"></small>
+            <div class="modal-btns">
+                <button id="btn-cancel-password" class="btn btn-secondary">취소</button>
+                <button id="btn-change-password" class="btn btn-primary">변경</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>
