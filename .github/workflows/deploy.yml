@@ -1,0 +1,49 @@
+name: Deploy kid-chat
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+      
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to server via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            # 1) nvm 초기화 (npm/pm2 PATH 살리기)
+            export NVM_DIR="$HOME/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+            [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"
+            cd /home/funq/dev/kid-chat
+            git fetch origin main
+            git reset --hard origin/main
+            npm ci
+            npm run build
+            # pm2 프로세스가 있으면 reload, 없으면 start
+            if pm2 describe kid-chat >/dev/null 2>&1; then
+              pm2 reload kid-chat --update-env
+            else
+              pm2 start npm --name kid-chat -- run start -- -H 0.0.0.0
+            fi
