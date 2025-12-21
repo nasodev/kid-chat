@@ -14,7 +14,8 @@ import {
   changePassword,
   getCurrentUserName
 } from '@/firebase/auth';
-import { subscribeToMessages, sendMessage, deleteMessage, parseMessageData } from '@/firebase/chat';
+import { subscribeToMessages, sendMessage, sendAIMessage, deleteMessage, parseMessageData } from '@/firebase/chat';
+import { askAI } from '@/firebase/ai';
 
 // 유틸리티
 import { getElement, getNameClass, formatTime } from '@/utils/helpers';
@@ -191,11 +192,31 @@ function initEventHandlers(): void {
   });
 
   // 메시지 보내기
+  const AI_PREFIX = '에이아이야';
+
   async function handleSendMessage(): Promise<void> {
     const text = messageInput.value;
+    const trimmedText = text.trim();
+
+    if (!trimmedText) {
+      return;
+    }
+
     try {
+      // 1. 원본 메시지 전송
       await sendMessage(text);
       messageInput.value = "";
+
+      // 2. AI 요청 감지
+      if (trimmedText.startsWith(AI_PREFIX)) {
+        const prompt = trimmedText.slice(AI_PREFIX.length).trim();
+        if (prompt) {
+          // AI 응답 받기
+          const aiResponse = await askAI(prompt);
+          // AI 응답을 별도 메시지로 전송
+          await sendAIMessage(aiResponse);
+        }
+      }
     } catch (e: unknown) {
       const error = e as { message?: string };
       alert(error.message || "메시지 전송 실패");

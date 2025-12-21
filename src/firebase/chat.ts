@@ -60,6 +60,23 @@ export async function deleteMessage(messageId: string): Promise<void> {
 }
 
 /**
+ * AI 응답 메시지 전송
+ */
+export async function sendAIMessage(text: string): Promise<void> {
+  const trimmedText = text.trim();
+  if (!trimmedText) {
+    return;
+  }
+
+  await addDoc(collection(db, "messages"), {
+    uid: "AI",
+    name: "AI",
+    text: trimmedText,
+    createdAt: serverTimestamp()
+  });
+}
+
+/**
  * 메시지 데이터 파싱
  */
 export function parseMessageData(docId: string, data: DocumentData): {
