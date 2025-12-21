@@ -87,3 +87,26 @@ export async function changePassword(currentPassword: string, newPassword: strin
 export function getCurrentUser(): User | null {
   return auth.currentUser;
 }
+
+/**
+ * Firebase ID Token 가져오기 (API 인증용)
+ */
+export async function getIdToken(): Promise<string | null> {
+  const user = auth.currentUser;
+  if (!user) return null;
+  return user.getIdToken();
+}
+
+// 개발용: 콘솔에서 토큰 가져오기 (프로덕션 빌드에서 제거됨)  
+if (import.meta.env.DEV) {
+  (window as unknown as { getToken: () => Promise<void> }).getToken = async () => {
+    const token = await getIdToken();
+    if (token) {
+      console.log('Token:', token);
+      navigator.clipboard.writeText(token);
+      console.log('✅ Token copied to clipboard!');
+    } else {
+      console.log('❌ Not logged in');
+    }
+  };
+}
