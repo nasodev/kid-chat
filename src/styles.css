@@ -278,6 +278,44 @@ h3::before {
     color: hsl(35 90% 45%);
 }
 
+/* AI 캐릭터들 */
+
+/* 말랑이 - 연분홍/복숭아 (다정한 친구) */
+.msg.color-ai-mallangi {
+    background: linear-gradient(135deg, hsl(350 70% 94%), hsl(20 80% 96%));
+    border: 2px solid hsl(350 60% 80%);
+}
+.msg.color-ai-mallangi strong {
+    color: hsl(350 70% 55%);
+}
+
+/* 루팡 - 노랑/금색 (건방진 친구) */
+.msg.color-ai-lupin {
+    background: linear-gradient(135deg, hsl(45 90% 90%), hsl(50 85% 92%));
+    border: 2px solid hsl(45 80% 70%);
+}
+.msg.color-ai-lupin strong {
+    color: hsl(45 90% 40%);
+}
+
+/* 푸딩 - 연두/라임 (애완동물) */
+.msg.color-ai-pudding {
+    background: linear-gradient(135deg, hsl(90 60% 92%), hsl(100 50% 94%));
+    border: 2px solid hsl(95 50% 70%);
+}
+.msg.color-ai-pudding strong {
+    color: hsl(95 60% 40%);
+}
+
+/* 마이콜 - 하늘/청록 (영어선생님) */
+.msg.color-ai-michael {
+    background: linear-gradient(135deg, hsl(190 70% 92%), hsl(200 60% 94%));
+    border: 2px solid hsl(195 60% 70%);
+}
+.msg.color-ai-michael strong {
+    color: hsl(195 70% 40%);
+}
+
 .msg small {
     color: hsl(var(--muted-foreground));
     font-size: 0.7rem;

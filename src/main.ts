@@ -15,7 +15,7 @@ import {
   getCurrentUserName
 } from '@/firebase/auth';
 import { subscribeToMessages, sendMessage, sendAIMessage, deleteMessage, parseMessageData } from '@/firebase/chat';
-import { askAI } from '@/firebase/ai';
+import { askAI, isAITrigger } from '@/firebase/ai';
 
 // 유틸리티
 import { getElement, getNameClass, formatTime } from '@/utils/helpers';
@@ -192,7 +192,7 @@ function initEventHandlers(): void {
   });
 
   // 메시지 보내기
-  const AI_PREFIX = '에이아이야';
+  // AI 캐릭터: 말랑아, 루팡아, 푸딩아, 마이콜아, 에이아이야
 
   async function handleSendMessage(): Promise<void> {
     const text = messageInput.value;
@@ -207,15 +207,12 @@ function initEventHandlers(): void {
       await sendMessage(text);
       messageInput.value = "";
 
-      // 2. AI 요청 감지
-      if (trimmedText.startsWith(AI_PREFIX)) {
-        const prompt = trimmedText.slice(AI_PREFIX.length).trim();
-        if (prompt) {
-          // AI 응답 받기
-          const aiResponse = await askAI(prompt);
-          // AI 응답을 별도 메시지로 전송
-          await sendAIMessage(aiResponse);
-        }
+      // 2. AI 요청 감지 (말랑아/루팡아/푸딩아/마이콜아/에이아이야)
+      if (isAITrigger(trimmedText)) {
+        // AI 응답 받기 (전체 메시지 전송, 백엔드에서 페르소나 감지)
+        const result = await askAI(trimmedText);
+        // AI 응답을 캐릭터 이름으로 전송
+        await sendAIMessage(result.response, result.persona);
       }
     } catch (e: unknown) {
       const error = e as { message?: string };

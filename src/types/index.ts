@@ -41,4 +41,8 @@ export type NameColorClass =
   | 'color-soyoon'
   | 'color-parent1'
   | 'color-parent2'
-  | 'color-parent3';
+  | 'color-parent3'
+  | 'color-ai-mallangi'   // 말랑이 (다정한 친구)
+  | 'color-ai-lupin'      // 루팡 (건방진 친구)
+  | 'color-ai-pudding'    // 푸딩 (애완동물)
+  | 'color-ai-michael';   // 마이콜 (영어선생님)

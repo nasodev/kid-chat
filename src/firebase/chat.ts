@@ -61,8 +61,10 @@ export async function deleteMessage(messageId: string): Promise<void> {
 
 /**
  * AI 응답 메시지 전송
+ * @param text AI 응답 텍스트
+ * @param persona AI 캐릭터 이름 (말랑이/루팡/푸딩/마이콜)
  */
-export async function sendAIMessage(text: string): Promise<void> {
+export async function sendAIMessage(text: string, persona: string = 'AI'): Promise<void> {
   const trimmedText = text.trim();
   if (!trimmedText) {
     return;
@@ -70,7 +72,7 @@ export async function sendAIMessage(text: string): Promise<void> {
 
   await addDoc(collection(db, "messages"), {
     uid: "AI",
-    name: "AI",
+    name: persona,
     text: trimmedText,
     createdAt: serverTimestamp()
   });
