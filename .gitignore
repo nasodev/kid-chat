@@ -32,3 +32,6 @@ firestore-debug.log
 
 # Claude
 .claude/
+
+# Docker
+docker-compose.override.yml

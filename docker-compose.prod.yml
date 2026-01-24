@@ -1,0 +1,24 @@
+# 프로덕션 환경
+services:
+  kid-chat:
+    image: ghcr.io/nasodev/kid-chat:${IMAGE_TAG:-latest}
+    container_name: kid-chat
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3001:80"
+    networks:
+      - funq-network
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:80"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  funq-network:
+    external: true
