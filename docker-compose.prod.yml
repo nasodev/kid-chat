@@ -1,4 +1,6 @@
 # 프로덕션 환경
+name: kid-chat
+
 services:
   kid-chat:
     image: ghcr.io/nasodev/kid-chat:${IMAGE_TAG:-latest}
