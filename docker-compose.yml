@@ -1,8 +1,11 @@
-# 로컬 개발 환경
+name: funq-kid-chat
+
 services:
   kid-chat:
     build: .
-    container_name: kid-chat-dev
     ports:
       - "23003:80"
+    labels:
+      - "com.funq.project=true"
+      - "com.funq.name=kid-chat"
     restart: unless-stopped
