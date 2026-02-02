@@ -5,7 +5,6 @@ import { DocumentData, QuerySnapshot } from 'firebase/firestore';
 import './styles.css';
 
 // Firebase 모듈
-import { initFCM, requestNotificationPermission, isFcmTokenSaved } from '@/firebase/fcm';
 import {
   onAuthChange,
   signup,
@@ -96,11 +95,6 @@ function handleAuthStateChange(user: User | null): void {
     const displayName = getCurrentUserName();
     userInfo.textContent = `${displayName}(으)로 접속 중`;
     authStatus.textContent = "";
-
-    // FCM 알림 권한 요청
-    if (!isFcmTokenSaved()) {
-      requestNotificationPermission(user.uid);
-    }
 
     // 채팅 메시지 실시간 구독
     if (messagesUnsub) messagesUnsub();
@@ -291,9 +285,6 @@ function initEventHandlers(): void {
  * 앱 초기화
  */
 async function initApp(): Promise<void> {
-  // FCM 초기화
-  await initFCM();
-
   // 이벤트 핸들러 초기화
   initEventHandlers();
 
